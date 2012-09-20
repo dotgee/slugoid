@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'shoulda'
 require 'mongoid'
 require 'slugoid'
+require 'babosa'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
@@ -13,13 +14,14 @@ module Acts::Slugoid::Test
       ::Mongoid.configure do |config|
         name = "slugoid_test"
         host = "localhost"
-        config.master = Moped::Connection.new.db(name)
-        config.logger = nil
+        # config.master = Moped::Connection.new.db(name)
+        # config.logger = nil
+        config.connect_to(name)
       end
     end
 
     def teardown
-      ::Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+      ::Mongoid.purge! # .master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
     end
   end
 end

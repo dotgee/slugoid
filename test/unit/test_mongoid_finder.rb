@@ -21,15 +21,15 @@ module Acts::Slugoid::Test
 
       should "work as usual for other models" do
         assert_equal @project, Project.find(@project.id)
-        assert_equal @project, Project.find(:first, :conditions => {:name => @project.name})
-        assert_equal @project, Project.first(:conditions => {:name => @project.name})
+        assert_equal @project, Project.find_by(name: @project.name)
+        assert_equal @project, Project.where(name: @project.name).first
       end
     end
 
     context "explicit find by id" do
       should "return the object" do
         assert_equal(@slugoid_project, SlugoidProject.where(:_id => @slugoid_project.id).first)
-        assert_equal(@slugoid_project, SlugoidProject.find(:first, :conditions => {:_id => @slugoid_project.id}))
+        assert_equal(@slugoid_project, SlugoidProject.find_by(_id: @slugoid_project.id))
       end
     end
 
