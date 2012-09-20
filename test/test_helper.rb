@@ -13,7 +13,7 @@ module Acts::Slugoid::Test
       ::Mongoid.configure do |config|
         name = "slugoid_test"
         host = "localhost"
-        config.master = Mongo::Connection.new.db(name)
+        config.master = Moped::Connection.new.db(name)
         config.logger = nil
       end
     end

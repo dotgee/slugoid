@@ -27,7 +27,7 @@ module Acts
             end
 
             field(store_as, :type => String) unless self.respond_to?(store_as)
-            index(store_as)
+            index( { store_as => 1 }, { unique: true })
             alias_method :to_param!, :to_param
 
             include InstanceMethods
@@ -49,7 +49,8 @@ module Acts
 
       module InstanceMethods
         def generate_slug(method, slug_field_name)
-          self.send("#{slug_field_name.to_s}=", self.send(method).parameterize)
+          # self.send("#{slug_field_name.to_s}=", self.send(method).parameterize)
+          self.send("#{slug_field_name.to_s}=", self.send(method).to_slug.normalize.to_s)
         end
       end
 
